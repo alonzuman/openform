@@ -5,18 +5,16 @@ import { Button } from "~/components/ui/button";
 import { getServerUser } from "~/lib/auth";
 import { nanoid } from "nanoid";
 import { SubmitButton } from "./submit-button";
-import { createForm } from "./[formId]/actions";
+import { createForm, getForms } from "./[formId]/actions";
 import { Header } from "~/components/header";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { signOut } from "next-auth/react";
 import { DropdownMenuItemSignOutButton } from "./sign-out-button";
 
 export default async function Page() {
@@ -46,10 +44,8 @@ async function Dashboard() {
     return null;
   }
 
-  const forms = await prisma.form.findMany({
-    where: {
-      userId: user.id,
-    },
+  const forms = await getForms({
+    userId: user.id,
   });
 
   return (
