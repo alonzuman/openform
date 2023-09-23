@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import React from "react";
 import { Form } from "./form";
-import { getAnonymousId, getForm, setAnonymousId } from "./actions";
-import { SubmitButton } from "../submit-button";
+import { getForm } from "./actions";
 
 export default async function Page(props: {
   params: {

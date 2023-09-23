@@ -6,6 +6,7 @@ import {
   createFormField,
   deleteFormField,
   getForm,
+  updateForm,
   updateFormField,
   updateFormFieldArgs,
 } from "../actions";
@@ -24,6 +25,12 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { Header } from "~/components/header";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
 
 export default async function Page(props: {
   params: {
@@ -72,14 +79,49 @@ async function EditLayout(
   return (
     <>
       <Header>
-        <Button asChild variant="ghost">
-          <Link href="/">Back</Link>
-        </Button>
         <div className="flex items-center gap-2">
-          <Button asChild variant="ghost">
+          <Button size="sm" asChild variant="ghost">
+            <Link href="/">Openform</Link>
+          </Button>
+          <span>/</span>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button size="sm" variant="ghost">
+                {form.title || "Untitled Form"}
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogTitle>Update Form Title</DialogTitle>
+              <form
+                action={async (formData: FormData) => {
+                  "use server";
+                  const title = formData.get("title");
+                  if (typeof title !== "string") return;
+
+                  await updateForm({
+                    id: formId,
+                    title,
+                  });
+
+                  revalidatePath(`/${formId}/edit`);
+                }}
+              >
+                <Input
+                  className="mb-2"
+                  name="title"
+                  defaultValue={form.title || ""}
+                />
+                <SubmitButton>Update</SubmitButton>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button size="sm" asChild variant="ghost">
             <Link href={`/${formId}/analytics`}>Analytics</Link>
           </Button>
-          <Button asChild>
+          <Button size="sm" asChild>
             <Link href={`/${formId}`}>Preview</Link>
           </Button>
         </div>
@@ -117,7 +159,8 @@ async function EditLayout(
               required: false,
             });
 
-            revalidatePath(`/${formId}/edit?fieldId=${newFormFieldId}`);
+            revalidatePath(`/${formId}/edit`);
+            redirect(`/${formId}/edit?fieldId=${newFormFieldId}`);
           }}
         >
           <SubmitButton variant="ghost">Create Field</SubmitButton>

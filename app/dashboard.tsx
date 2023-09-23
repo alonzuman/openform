@@ -29,7 +29,9 @@ export async function Dashboard() {
   return (
     <>
       <Header className="sticky top-0">
-        <h1>Openform</h1>
+        <Button asChild variant="ghost">
+          <Link href="/">Openform</Link>
+        </Button>
         <div className="flex items-center gap-2">
           <form
             action={async (params: FormData) => {
