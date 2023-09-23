@@ -3,7 +3,6 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { AuthOptions, DefaultSession, getServerSession } from "next-auth";
 import { serverEnv } from "./env";
 import { prisma } from "~/lib/prisma";
-import { cookies } from "next/headers";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
