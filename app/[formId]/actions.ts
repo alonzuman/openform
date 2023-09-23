@@ -86,7 +86,17 @@ export const getFormsArgs = z.object({
 
 export async function createForm(args: z.infer<typeof createFormArgs>) {
   return prisma.form.create({
-    data: args,
+    data: {
+      ...args,
+      fields: {
+        create: {
+          title: "First Question",
+          order: 0,
+          required: false,
+          type: "text",
+        },
+      },
+    },
   });
 }
 

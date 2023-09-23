@@ -144,7 +144,7 @@ export async function Form(props: {
                 <Input
                   defaultValue={currentValue}
                   required={field.required}
-                  autoFocus={isActiveField}
+                  autoFocus={isActiveField && !isEditing}
                   type="text"
                   name={field.id}
                   variant="underline"
@@ -156,7 +156,7 @@ export async function Form(props: {
                 <Textarea
                   defaultValue={currentValue}
                   required={field.required}
-                  autoFocus={isActiveField}
+                  autoFocus={isActiveField && !isEditing}
                   name={field.id}
                   variant="underline"
                   placeholder="Type your answer here..."

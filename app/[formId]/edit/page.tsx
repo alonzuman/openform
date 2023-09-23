@@ -86,23 +86,26 @@ async function EditLayout(
       </Header>
       <aside className="fixed left-0 top-16 p-4 bottom-0 w-56 h-[calc(100dvh_-_4rem)]">
         <ul className="flex flex-col gap-2">
-          {form.fields?.map((field) => (
-            <li key={field.id}>
-              <Button asChild variant="ghost">
-                <Link
-                  key={field.id}
-                  href={`/${formId}/edit?fieldId=${field.id}`}
-                  scroll={false}
-                >
-                  {field.title || "Untitled Field"}
-                </Link>
-              </Button>
-            </li>
-          ))}
+          {form.fields?.map((field) => {
+            const selected = field.id === props.fieldId;
+            return (
+              <li key={field.id}>
+                <Button asChild variant={selected ? "outline" : "ghost"}>
+                  <Link
+                    key={field.id}
+                    href={`/${formId}/edit?fieldId=${field.id}`}
+                    scroll={false}
+                  >
+                    {field.title || "Untitled Field"}
+                  </Link>
+                </Button>
+              </li>
+            );
+          })}
         </ul>
         <form
           className="mt-2"
-          action={async (formData: FormData) => {
+          action={async () => {
             "use server";
             const newFormFieldId = nanoid();
 
